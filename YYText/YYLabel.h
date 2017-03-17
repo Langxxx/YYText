@@ -328,7 +328,7 @@ NS_ASSUME_NONNULL_BEGIN
     });
  
  */
-
+- (nullable YYTextHighlight *)highlightAtPoint:(CGPoint)point range:(NSRangePointer)range;
 @end
 
 
@@ -374,6 +374,8 @@ IB_DESIGNABLE
 @property (nonatomic) BOOL fadeOnAsynchronouslyDisplay;
 @property (nonatomic) BOOL fadeOnHighlight;
 @property (nonatomic) BOOL ignoreCommonProperties;
+
+- (nullable YYTextHighlight *)highlightAtPoint:(CGPoint)point range:(NSRangePointer)range;
 @end
 #endif // !TARGET_INTERFACE_BUILDER
 

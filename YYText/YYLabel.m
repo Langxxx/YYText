@@ -174,7 +174,9 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
     }
 }
-
+- (nullable YYTextHighlight *)highlightAtPoint:(CGPoint)point range:(NSRangePointer)range {
+    return [self _getHighlightAtPoint:point range:range];
+}
 - (YYTextHighlight *)_getHighlightAtPoint:(CGPoint)point range:(NSRangePointer)range {
     if (!self._innerLayout.containsHighlight) return nil;
     point = [self _convertPointToLayout:point];
