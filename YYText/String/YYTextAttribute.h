@@ -35,6 +35,7 @@ typedef NS_OPTIONS (NSInteger, YYTextLineStyle) {
     YYTextLineStyleSingle     = 0x01, ///< (──────) Draw a single line.
     YYTextLineStyleThick      = 0x02, ///< (━━━━━━━) Draw a thick line.
     YYTextLineStyleDouble     = 0x09, ///< (══════) Draw a double line.
+    YYTextLineStyleLeftLine   = 0x10,
     
     // style pattern (bitmask:0xF00)
     YYTextLineStylePatternSolid      = 0x000, ///< (────────) Draw a solid line (Default).

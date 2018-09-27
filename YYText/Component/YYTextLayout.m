@@ -2432,13 +2432,16 @@ static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorde
         
         //-------------------------- single line ------------------------------//
         CGContextSaveGState(context);
-        for (UIBezierPath *path in paths) {
-            CGRect bounds = CGRectUnion(path.bounds, (CGRect){CGPointZero, size});
-            bounds = CGRectInset(bounds, -2 * border.strokeWidth, -2 * border.strokeWidth);
-            CGContextAddRect(context, bounds);
-            CGContextAddPath(context, path.CGPath);
-            CGContextEOClip(context);
+        if (border.lineStyle != YYTextLineStyleLeftLine) {
+            for (UIBezierPath *path in paths) {
+                CGRect bounds = CGRectUnion(path.bounds, (CGRect){CGPointZero, size});
+                bounds = CGRectInset(bounds, -2 * border.strokeWidth, -2 * border.strokeWidth);
+                CGContextAddRect(context, bounds);
+                CGContextAddPath(context, path.CGPath);
+                CGContextEOClip(context);
+            }
         }
+
         [border.strokeColor setStroke];
         YYTextSetLinePatternInContext(border.lineStyle, border.strokeWidth, 0, context);
         CGFloat inset = -border.strokeWidth * 0.5;
@@ -2456,10 +2459,16 @@ static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorde
             if (isVertical) {
                 rect = UIEdgeInsetsInsetRect(rect, UIEdgeInsetRotateVertical(border.insets));
             } else {
-                rect = UIEdgeInsetsInsetRect(rect, border.insets);
+                rect = border.lineStyle == YYTextLineStyleLeftLine ? rect : UIEdgeInsetsInsetRect(rect, border.insets);
             }
-            rect = CGRectInset(rect, inset, inset);
-            UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:border.cornerRadius + radiusDelta];
+
+            UIBezierPath *path;
+            if (border.lineStyle == YYTextLineStyleLeftLine) {
+                path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(rect.origin.x, rect.origin.y, border.strokeWidth, rect.size.height) cornerRadius:border.cornerRadius];
+            } else {
+                rect = CGRectInset(rect, inset, inset);
+                path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:border.cornerRadius + radiusDelta];
+            }
             [path closePath];
             CGContextAddPath(context, path.CGPath);
         }
